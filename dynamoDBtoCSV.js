@@ -49,8 +49,10 @@ var scanDynamoDB = function ( query ) {
       unMarshalIntoArray( data.Items ); // Print out the subset of results.
       if ( data.LastEvaluatedKey ) { // Result is incomplete; there is more to come.
         query.ExclusiveStartKey = data.LastEvaluatedKey;
-        scanDynamoDB(query);
-      }
+        setTimeout(function(){
+          scanDynamoDB(query);
+        },1000)
+     }
       else {
         console.log(Papa.unparse( { fields: [ ...headers ], data: unMarshalledArray } ));
       }
